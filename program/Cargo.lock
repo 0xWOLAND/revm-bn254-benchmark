@@ -69,6 +69,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c3ac9f8b63eca6fd385229b3675f6cc0dc5c8a5c8a54a59d4f52ffd670d87b0c"
 
 [[package]]
+name = "byteorder"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -88,6 +94,12 @@ checksum = "53fe5e26ff1b7aef8bca9c6080520cfb8d9333c7568e1829cef191a9723e5504"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "crunchy"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
 
 [[package]]
 name = "crypto-bigint"
@@ -288,6 +300,15 @@ dependencies = [
  "once_cell",
  "sha2",
  "signature",
+]
+
+[[package]]
+name = "lazy_static"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
+dependencies = [
+ "spin",
 ]
 
 [[package]]
@@ -494,7 +515,10 @@ dependencies = [
 name = "revm-bn254-benchmark-program"
 version = "0.1.0"
 dependencies = [
+ "hex",
+ "sp1-derive",
  "sp1-zkvm",
+ "substrate-bn",
 ]
 
 [[package]]
@@ -506,6 +530,12 @@ dependencies = [
  "hmac",
  "subtle",
 ]
+
+[[package]]
+name = "rustc-hex"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3e75f6a532d0fd9f7f13144f392b6ad56a32696bfcd9c78f797f16bbb6f072d6"
 
 [[package]]
 name = "scale-info"
@@ -597,6 +627,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "sp1-derive"
+version = "0.1.0"
+source = "git+https://github.com/succinctlabs/sp1.git?branch=main#ab0efc008737407e609439a4d362395bb2e325b1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
 name = "sp1-precompiles"
 version = "0.1.0"
 source = "git+https://github.com/succinctlabs/sp1.git?branch=main#ab0efc008737407e609439a4d362395bb2e325b1"
@@ -631,6 +671,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "spin"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
 name = "spki"
 version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -638,6 +684,19 @@ checksum = "d91ed6c858b01f942cd56b37a94b3e0a1798290327d1236e4d9cf4eaca44d29d"
 dependencies = [
  "base64ct",
  "der",
+]
+
+[[package]]
+name = "substrate-bn"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72b5bbfa79abbae15dd642ea8176a21a635ff3c00059961d1ea27ad04e5b441c"
+dependencies = [
+ "byteorder",
+ "crunchy",
+ "lazy_static",
+ "rand",
+ "rustc-hex",
 ]
 
 [[package]]

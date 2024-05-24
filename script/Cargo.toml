@@ -6,6 +6,9 @@ edition = "2021"
 
 [dependencies]
 sp1-sdk = { git = "https://github.com/succinctlabs/sp1.git", branch = "main" }
+bn = { package = "substrate-bn", version = "0.6", default-features = false }
+rand = "0.8.5"
+hex = "0.4.3"
 
 [build-dependencies]
 sp1-helper = { git = "https://github.com/succinctlabs/sp1.git", branch = "main" }

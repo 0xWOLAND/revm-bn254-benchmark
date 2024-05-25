@@ -42,4 +42,4 @@
 
 # Credits
 
-- Credit to [Michael Zaikin](https://github.com/m-kus/sp1-bn254-benchmark)
+- Credit to Michael Zaikin for the [initial benchmark](https://github.com/m-kus/sp1-bn254-benchmark)

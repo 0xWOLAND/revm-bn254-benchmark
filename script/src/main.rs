@@ -1,6 +1,5 @@
-use bn::{AffineG1, AffineG2, Fq, Fq2, Fr, Group, G1, G2};
+use bn::{AffineG1, AffineG2, Fr, Group, G1, G2};
 use hex;
-use rand::Rng;
 use sp1_sdk::{utils, ProverClient, SP1Stdin};
 const ELF: &[u8] = include_bytes!("../../program/elf/riscv32im-succinct-zkvm-elf");
 

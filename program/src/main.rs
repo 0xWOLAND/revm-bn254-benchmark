@@ -5,12 +5,18 @@ use bn::{miller_loop_batch, pairing as bn_pairing, AffineG1, AffineG2, Fq, Fq2, 
 
 fn read_g1() -> G1 {
     let hex_data = sp1_zkvm::io::read::<String>();
-    decode_g1(&hex::decode(&hex_data).unwrap())
+    println!("cycle-tracker-start: decode-g1");
+    let out = decode_g1(&hex::decode(&hex_data).unwrap());
+    println!("cycle-tracker-end: decode-g1");
+    out
 }
 
 fn read_g2() -> G2 {
     let hex_data = sp1_zkvm::io::read::<String>();
-    decode_g2(&hex::decode(&hex_data).unwrap())
+    println!("cycle-tracker-start: decode-g2");
+    let out = decode_g2(&hex::decode(&hex_data).unwrap());
+    println!("cycle-tracker-end: decode-g2");
+    out
 }
 
 fn read_fr() -> Fr {
@@ -20,12 +26,16 @@ fn read_fr() -> Fr {
 }
 
 fn write_g1(g1: G1) {
+    println!("cycle-tracker-start: encode-g1");
     let data = encode_g1(g1);
+    println!("cycle-tracker-end: encode-g1");
     sp1_zkvm::io::commit(&hex::encode(data));
 }
 
 fn write_g2(g2: G2) {
+    println!("cycle-tracker-start: encode-g2");
     let data = encode_g2(g2);
+    println!("cycle-tracker-end: encode-g2");
     sp1_zkvm::io::commit(&hex::encode(data));
 }
 
@@ -99,6 +109,11 @@ fn mul_g2(point: G2, scalar: Fr) -> G2 {
 }
 
 #[sp1_derive::cycle_tracker]
+fn inv_gt(gt: Gt) -> Gt {
+    gt.inverse().unwrap()
+}
+
+#[sp1_derive::cycle_tracker]
 fn miller_loop(g1: G1, g2: G2) -> Gt {
     miller_loop_batch(&[(g2, g1)]).unwrap()
 }
@@ -124,14 +139,37 @@ pub fn main() {
     let g2_c = read_g2();
     let fr_d2 = read_fr();
 
+    println!("cycle-tracker-start: sum-g1");
     let g1_sum = sum_g1(g1_a, g1_b);
-    let g1_mul = mul_g1(g1_c, fr_d1);
-    let g2_sum = sum_g2(g2_a, g2_b);
-    let g2_mul = mul_g2(g2_c, fr_d2);
+    println!("cycle-tracker-end: sum-g1");
 
-    let fqt_ml = miller_loop(g1_a, g2_b);
-    let fqt_fe = final_exp(fqt_ml.clone());
-    let fqt_p = pairing(g1_a, g2_b);
+    println!("cycle-tracker-start: mul-g1");
+    let g1_mul = mul_g1(g1_c, fr_d1);
+    println!("cycle-tracker-end: mul-g1");
+
+    println!("cycle-tracker-start: sum-g2");
+    let g2_sum = sum_g2(g2_a, g2_b);
+    println!("cycle-tracker-end: sum-g2");
+
+    println!("cycle-tracker-start: mul-g2");
+    let g2_mul = mul_g2(g2_c, fr_d2);
+    println!("cycle-tracker-end: mul-g2");
+
+    println!("cycle-tracker-start: miller-loop");
+    let gt_ml = miller_loop(g1_a, g2_b);
+    println!("cycle-tracker-end: miller-loop");
+
+    println!("cycle-tracker-start: final-exp");
+    let gt_fe = final_exp(gt_ml.clone());
+    println!("cycle-tracker-end: final-exp");
+
+    println!("cycle-tracker-start: pairing");
+    let gt_p = pairing(g1_a, g2_b);
+    println!("cycle-tracker-end: pairing");
+
+    println!("cycle-tracker-start: inv-gt");
+    let gt_inv = inv_gt(gt_p);
+    println!("cycle-tracker-end: inv-gt");
 
     write_g1(g1_sum);
     write_g1(g1_mul);
